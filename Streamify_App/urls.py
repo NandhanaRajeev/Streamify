@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.urls import path
-from .views import *  # Import the view
-from django.conf.urls.static import static
+from .views import index,contact  # Import your views file
 
 urlpatterns = [
-    path('', admin.site.urls),
+    path('', index, name='index'),  # Add this line if missing
+    path('contact', contact, name='contact'), 
 ]
