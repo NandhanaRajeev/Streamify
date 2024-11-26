@@ -7,12 +7,12 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Streamify</title>
-	<link href="css/bootstrap.min.css" rel="stylesheet" >
-	<link href="css/font-awesome.min.css" rel="stylesheet" >
-	<link href="css/global.css" rel="stylesheet">
-	<link href="css/index.css" rel="stylesheet">
+	<link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet" >
+	<link href="{% static 'css/font-awesome.min.css'%}" rel="stylesheet" >
+	<link href="{% static 'css/global.css'%}" rel="stylesheet">
+	<link href="{% static 'css/index.css'%}" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Overpass&display=swap" rel="stylesheet">
-	<script src="js/bootstrap.bundle.min.js"></script>
+	<script src="{% static 'js/bootstrap.bundle.min.js'%}"></script>
 
 </head>
 <body>
@@ -22,7 +22,7 @@
    <section id="header">
 <nav class="navbar navbar-expand-md navbar-light" id="navbar_sticky">
   <div class="container-xl">
-    <a class="navbar-brand fs-2 p-0 fw-bold text-white m-0 me-5" href="index.html"><i class="fa fa-youtube-play me-1 col_red"></i> Play Show </a>
+    <a class="navbar-brand fs-2 p-0 fw-bold text-white m-0 me-5" href="index.html"><i class="fa fa-youtube-play me-1 col_red"></i> Streamify</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -139,7 +139,7 @@
       </div>
     </div>
     <div class="carousel-item">
-      <img src="img/2.jpg" class="d-block w-100" alt="...">
+      <img src="{% static 'images\img2.jpeg' %}" class="d-block w-100" alt="...">
       <div class="carousel-caption d-md-block">
          <h5 class="text-white-50 release ps-2 fs-6">NEW RELEASES</h5>
         <h1 class="font_80 mt-4">Detail Of Popular<br>  New Show</h1>
@@ -149,7 +149,7 @@
       </div>
     </div>
     <div class="carousel-item">
-      <img src="img/3.jpg" class="d-block w-100" alt="...">
+      <img src="{% static 'images\img3.jpg' %}" class="d-block w-100" alt="...">
       <div class="carousel-caption d-md-block">
          <h5 class="text-white-50 release ps-2 fs-6">NEW RELEASES</h5>
         <h1 class="font_80 mt-4">The Happy Moments <br> Concert</h1>
