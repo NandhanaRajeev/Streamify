@@ -1,0 +1,226 @@
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie Recommendation</title>
+
+    <!-- jQuery Library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- CSS Styles -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+    <!-- Google Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+    />
+
+    <style>
+      body {
+        background-color: #171d21; /* Dark background */
+        color: white; /* White text */
+        font-family: 'Poppins', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+      }
+
+      main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh; /* Full height */
+        width: 100%;
+      }
+
+      .recommendation-section {
+        text-align: center;
+        padding: 60px 40px; /* Increased padding */
+        background-color: #1e262b;
+        border-radius: 8px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+        width: 100%;
+        max-width: 600px; /* Larger width */
+        height: auto;
+      }
+
+      .recommendation-section h1 {
+        margin-bottom: 30px; /* Increased space */
+        font-size: 36px; /* Larger font size */
+        font-weight: 600;
+      }
+
+      .recommendation-section label {
+        display: block;
+        margin-bottom: 15px;
+        font-size: 18px; /* Larger font size */
+        font-weight: 500;
+      }
+
+      .recommendation-section input {
+        width: 100%;
+        padding: 12px; /* Increased padding */
+        margin-bottom: 25px; /* Increased space */
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        font-size: 18px; /* Larger font size */
+      }
+
+      .recommendation-section button {
+        background-color: #ff4b2b;
+        color: white;
+        border: none;
+        padding: 12px 24px; /* Increased padding */
+        font-size: 18px; /* Larger font size */
+        cursor: pointer;
+        border-radius: 6px;
+        transition: background-color 0.3s ease;
+      }
+
+      .recommendation-section button:hover {
+        background-color: #e6391a;
+      }
+
+      #recommendations {
+        margin-top: 30px;
+        font-size: 18px; /* Larger font size */
+      }
+
+      /* Ensure the navbar stays at the top */
+      header {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+      }
+
+      /* Adjust the back-to-top button */
+      .back-to-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #ff4b2b;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        font-size: 18px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar Section -->
+    <header>
+      <nav class="navbar">
+        <div class="logo">
+          <!-- <a href=""><img src="{% static 'images/logo.svg' %}" alt="Streamify Logo" /></a> -->
+        </div>
+        <ul class="nav-list">
+          <div class="logo">
+            <a href=""><img src="{% static 'images/logo.svg' %}" alt="Streamify Logo" /></a>
+            <button class="close"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <li class=""><a href="/">home</a></li>
+          <li><a href="{% url 'movie_recommendation' %}">Recommendation</a></li>
+        </ul>
+        <div class="hamburger">
+          <div class="line"></div>
+          <div class="line"></div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main Content Section -->
+    <main>
+      <!-- Movie Recommendation Section -->
+      <section class="recommendation-section">
+        <h1>Get Movie Recommendations</h1>
+
+        <!-- Input Form for the Query -->
+        <form id="movieForm" method="POST">
+          {% csrf_token %}
+          <label for="query">Enter your movie preference:</label>
+          <input 
+            type="text" 
+            id="query" 
+            name="query" 
+            placeholder="e.g., Kids studying magic" 
+            required 
+          />
+          <button type="submit">Get Recommendations</button>
+        </form>
+
+        <!-- Recommendations Output -->
+        <!-- <h3>Recommendations:</h3> -->
+        <div id="recommendations"></div>
+      </section>
+    </main>
+
+    <!-- Back-to-Top Button -->
+    <button class="back-to-top">
+      <i class="fa-solid fa-chevron-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script>
+  // Handle the form submission using AJAX
+  $(document).ready(function () {
+    $('#movieForm').on('submit', function (event) {
+      event.preventDefault(); // Prevent the form from refreshing the page
+
+      var query = $('#query').val(); // Get the input query
+
+      // Send AJAX request to the Django view
+      $.ajax({
+        type: 'POST',
+        url: '/movie-recommendation/', // The URL for the view
+        data: {
+          query: query,
+          csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(), // Include CSRF token
+        },
+        success: function (response) {
+          // Display the recommendations received from the backend as a numbered list
+          var recommendations = response.recommendations;
+          
+          // Create the numbered list
+          var recommendationList = '<ol>';
+          recommendations.split('<br>').forEach(function(rec) {
+            recommendationList += '<br>' + rec + '</br>';
+          });
+          recommendationList += '</ol>';
+
+          // Insert the list into the #recommendations div
+          $('#recommendations').html(recommendationList);
+        },
+        error: function (xhr, status, error) {
+          // Handle any errors
+          $('#recommendations').html('An error occurred: ' + error);
+        },
+      });
+    });
+  });
+</script>
+
+
+    <!-- External JavaScript Files -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/navbar.js' %}"></script>
+  </body>
+</html>
+{% endblock content %}

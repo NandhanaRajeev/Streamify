@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommendation</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Get Movie Recommendations</h1>
+    
+    <!-- Input form for the query -->
+    <form id="movieForm" method="POST">
+        {% csrf_token %}
+        <label for="query">Enter your movie preference:</label>
+        <input type="text" id="query" name="query" placeholder="e.g. Kids studying magic">
+        <button type="submit">Get Recommendations</button>
+    </form>
+
+    <!-- Displaying the results -->
+    <h3>Recommendations:</h3>
+    <div id="recommendations"></div>
+
+    <script>
+        // Handle the form submission using AJAX
+        $(document).ready(function() {
+            $('#movieForm').on('submit', function(event) {
+                event.preventDefault();  // Prevent form from refreshing the page
+
+                var query = $('#query').val();  // Get the input query
+
+                // Send AJAX request to the Django view
+                $.ajax({
+                    type: 'POST',
+                    url: '/movie-recommendation/',  // The URL for the view
+                    data: {
+                        'query': query,
+                        'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()  // Include CSRF token
+                    },
+                    success: function(response) {
+                        // Display the recommendations received from the backend
+                        $('#recommendations').html(response.recommendations);
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle any errors
+                        $('#recommendations').html("An error occurred: " + error);
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

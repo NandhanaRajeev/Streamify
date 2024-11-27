@@ -1,0 +1,61 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login or Sign Up</title>
+    <link rel="stylesheet" href="{% static 'css/sign_in.css' %}">
+</head>
+<body>
+<div class="container">
+    <div class="forms-container">
+        <div class="form-login">
+            <!-- Login Form -->
+            <form id="loginForm" class="form active" method="POST" action="{% url 'sign_in' %}" autocomplete="off">
+                {% csrf_token %}
+                <h2 class="title">Login</h2>>
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="Username" required />
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Password" required />
+                </div>
+                <button type="submit" class="btn">Login</button>
+                <p class="toggle-text">Don't have an account? 
+                    <a href="#" id="switchToSignUp">Sign Up</a>
+                </p>
+            </form>
+        </div>
+        <div class="form-signup">
+            <!-- Sign-Up Form -->
+            <form id="signUpForm" class="form" action="{% url 'sign_in' %}" method="POST" autocomplete="off">
+                {% csrf_token %}
+                <h2 class="title">Sign Up</h2>
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="Username" required />
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" placeholder="Email" required />
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Password" required />
+                </div>
+                <button type="submit" class="btn">Sign Up</button>
+                <p class="toggle-text">Already have an account? 
+                    <a href="#" id="switchToLogin">Login</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'js/sign_in.js ' %}"></script>
+</body>
+</html>

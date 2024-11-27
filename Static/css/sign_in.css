@@ -1,0 +1,124 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Body Styling */
+body {
+    background-color: #1d1a28; /* Updated Background Color */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+/* Container */
+.container {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px; /* Rounded corners */
+    padding: 30px 25px;
+    width: 350px; /* Adjusted width */
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* Form Styling */
+.forms-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form {
+    display: none;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form.active {
+    display: flex;
+}
+
+.title {
+    font-size: 1.6rem;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Input Fields */
+.input-field {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 12px;
+    border-radius: 5px;
+}
+
+.input-field i {
+    color: #fff;
+}
+
+.input-field input {
+    border: none;
+    outline: none;
+    background: none;
+    color: #fff;
+    width: 100%;
+    font-size: 1rem;
+}
+
+::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Button Styling */
+.btn {
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    color: #fff;
+}
+
+.btn:hover {
+    background: linear-gradient(to right, #2575fc, #6a11cb);
+}
+
+/* Toggle Text */
+.toggle-text {
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.toggle-text a {
+    color: #6a11cb;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.toggle-text a:hover {
+    color: #2575fc;
+}
+
+/* Responsive Styling */
+@media (max-width: 400px) {
+    .container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .title {
+        font-size: 1.4rem;
+    }
+}

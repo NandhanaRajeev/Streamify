@@ -28,7 +28,7 @@
     <header>
       <nav class="navbar">
         <div class="logo">
-          <a href=""><img src="{% static 'images/logo.svg' %}" alt="" /></a>
+          <!-- <a href=""><img src="{% static 'images/logo.svg' %}" alt="" /></a> -->
         </div>
         <ul class="nav-list">
           <div class="logo">
@@ -36,11 +36,10 @@
             <button class="close"><i class="fa-solid fa-xmark"></i></button>
           </div>
           <li class="home"><a href="">home</a></li>
-          <li><a href="">movie</a></li>
-          <li><a href="">tv show</a></li>
-          <li><a href="">web series</a></li>
-          <li><a href="">pricing</a></li>
-          <button class="btn">SIGN IN</button>
+          <li><a href="#moviedetails">movie</a></li>
+          <li><a href="{% url 'movie_recommendation' %}">Recommendation</a></li>
+          <li><a href="{% url 'analysis' %}">Analysis</a></li>
+          <button class="btn"><a href="{% url 'sign_in' %}">Signin</a></button>
         </ul>
         <div class="hamburger">
           <div class="line"></div>
@@ -50,11 +49,11 @@
     </header>
 
     <!-- hero section starts  -->
-    <section class="hero">
+    <!-- <section class="hero">
       <div class="main">
         <div class="content">
           <p>Streamify</p>
-          <h1>Unlimited <strong>Movie</strong>, TVs Shows, & More.</h1>
+          <h1>Unlimited <strong>Movies 	</strong>, TVs Shows, & More.</h1>
           <div class="meta-wrapper">
             <div class="badge">
               <span>PG 18</span>
@@ -73,10 +72,31 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
+
+	<section class="hero">
+    <div class="main">
+        <div class="content">
+            <p>Streamify</p>
+            <h1>Unlimited <strong>Movie</strong>, TVs Shows, & More.</h1>
+            <!-- <div class="meta-wrapper">
+                <div class="badge">
+                    <span>PG 18</span>
+                    <span>HD</span>
+                </div> -->
+                
+    </div>
+    <!-- Search Bar Section with Unique Class -->
+    <!-- <div class="custom-search-bar">
+        <input type="text" placeholder="Enter your movie preferences" />
+        <button><i class="fa-solid fa-search"></i> Search</button>
+    </div> -->
+</section>
+
+	
 
     <!-- upcoming movie section starts  -->
-    <section class="upcoming-movie">
+    <section class="upcoming-movie" id="moviedetails">
       <div class="header">
         <div class="subtitle">
           <small>online Streaming</small>
@@ -467,7 +487,7 @@
               <li><a href="">movie</a></li>
               <li><a href="">tv show</a></li>
               <li><a href="">web series</a></li>
-              <li><a href="">pricing</a></li>
+              
             </ul>
           </nav>
           <hr>

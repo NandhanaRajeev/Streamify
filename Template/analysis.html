@@ -1,0 +1,247 @@
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User View Analysis</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1d1a28;
+            font-family: 'Roboto', sans-serif;
+        }
+        .jumbotron {
+            background-color: #343a40;
+            color: white;
+            padding: 2rem;
+        }
+        .card {
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .card-header {
+            font-size: 1.25rem;
+        }
+        h5.card-title {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        p.card-text {
+            font-size: 1.2rem;
+        }
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #343a40;
+            color: white;
+        }
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="jumbotron text-center">
+    <h1 class="display-4">User View Analysis</h1>
+    <p class="lead">Analyze your viewing habits!</p>
+</div>
+
+<div class="container">
+    <div class="row">
+
+        <!-- Daily Watch Time Pie Chart -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">Daily Watch Time</div>
+                <div class="card-body">
+                    <h5 class="card-title">Watch Time Distribution</h5>
+                    <canvas id="watchTimeChart" height="150"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Genre Watch Bar Chart -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">Genres Watched</div>
+                <div class="card-body">
+                    <h5 class="card-title">Hours Watched by Genre</h5>
+                    <canvas id="genreChart" height="150"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Viewing History List -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">Viewing History</div>
+                <div class="card-body">
+                    <h5 class="card-title">Most Watched Series/Movies</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Breaking Bad (Series) - 10 times</li>
+                        <li class="list-group-item">Inception (Movie) - 5 times</li>
+                        <li class="list-group-item">Friends (Series) - 8 times</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Time Series Line Chart -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-info text-white">Daily Viewing Time Over Last Week</div>
+                <div class="card-body">
+                    <canvas id="timeSeriesChart" height="150"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Monthly Viewing Trends Line Chart -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">Monthly Viewing Trends</div>
+                <div class="card-body">
+                    <h5 class="card-title">Watch Time Over the Last Month</h5>
+                    <canvas id="monthlyTrendsChart" height="150"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center mt-4 mb-4">
+        &copy; 2024 User View Analysis Page
+    </footer>
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+// Daily Watch Time Chart (Pie Chart)
+const ctxWatchTime = document.getElementById('watchTimeChart').getContext('2d');
+const watchTimeChart = new Chart(ctxWatchTime, {
+    type: 'pie',
+    data: {
+        labels: ['Movies', 'Series'],
+        datasets: [{
+            label: 'Watch Time Distribution',
+            data: [90, 105],
+            backgroundColor: ['#007bff', '#28a745'],
+            borderColor: ['#ffffff', '#ffffff'],
+            borderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: true,
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Daily Watch Time Distribution'
+            },
+            tooltip: {
+                callbacks: {
+                    label(tooltipItem) {
+                        const value = tooltipItem.raw;
+                        return `${tooltipItem.label}: ${Math.floor(value / 60)}h ${value % 60}m`;
+                    }
+                }
+            }
+        }
+    }
+});
+
+// Genre Chart (Bar Chart)
+const ctxGenre = document.getElementById('genreChart').getContext('2d');
+const genreChart = new Chart(ctxGenre, {
+    type: 'bar',
+    data: {
+        labels: ['Action', 'Comedy', 'Drama', 'Thriller', 'Romance'],
+        datasets: [{
+            label: 'Hours Watched',
+            data: [10, 15, 20, 8, 12],
+            backgroundColor: '#17a2b8',
+            borderColor: '#ffffff',
+            borderWidth: 2
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { display: false },
+            title: { display: true, text: 'Hours Watched by Genre' }
+        },
+        scales: { yAxes:[{ ticks:{ beginAtZero:true } }] }
+    }
+});
+
+// Time Series Chart for Daily Viewing Time Over Last Week
+const ctxTimeSeries = document.getElementById('timeSeriesChart').getContext('2d');
+const timeSeriesChart = new Chart(ctxTimeSeries, {
+    type: 'line',
+    data: {
+        labels:['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        datasets:[{
+            label:'Hours Watched',
+            data:[2, 3, 1.5, 4, 3.5, 2.5, 3],
+            backgroundColor:'rgba(23,162,184,0.2)',
+            borderColor:'#17a2b8',
+            borderWidth:2,
+            fill:true
+        }]
+    },
+    options:{
+         responsive:true,
+         plugins:{
+             legend:{ display:false },
+             title:{ display:true, text:'Daily Viewing Time Over Last Week' }
+         },
+         scales:{ yAxes:[{ ticks:{ beginAtZero:true } }] }
+     }
+});
+
+// Monthly Trends Line Chart
+const ctxMonthlyTrends = document.getElementById('monthlyTrendsChart').getContext('2d');
+const monthlyTrendsChart = new Chart(ctxMonthlyTrends, {
+    type:'line',
+    data:{
+         labels:['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+         datasets:[{
+             label:'Hours Watched',
+             data:[15, 20, 25, 30], // Example data for each week
+             backgroundColor:'rgba(255,193,7,0.2)',
+             borderColor:'#ffc107',
+             borderWidth:2,
+             fill:true
+         }]
+     },
+     options:{
+          responsive:true,
+          plugins:{
+              legend:{ display:false },
+              title:{ display:true, text:'Monthly Viewing Trends' }
+          },
+          scales:{ yAxes:[{ ticks:{ beginAtZero:true } }] }
+      }
+});
+</script>
+
+</body>
+</html>
+{% endblock content %}
